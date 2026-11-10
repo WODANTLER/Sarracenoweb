@@ -49,9 +49,9 @@ p{margin:0}
 
 /* NAV */
 .nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:14px var(--pad-r) 14px var(--pad);transition:color .4s,background .4s,backdrop-filter .4s}
-.nav.glass{background:rgba(210,194,176,.6);backdrop-filter:saturate(160%) blur(18px);-webkit-backdrop-filter:saturate(160%) blur(18px)}
+.nav::before{content:"";position:absolute;inset:0 0 -30px;z-index:-1;background:linear-gradient(180deg,var(--nav-bg,var(--wall)) 0%,var(--nav-bg,var(--wall)) 52%,transparent 100%);opacity:0;transition:opacity .4s,background .4s;pointer-events:none}
+.nav.glass::before{opacity:.94}
 .nav.dark{color:var(--cream)}
-.nav.dark.glass{background:rgba(40,12,16,.45)}
 .lockup{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
 .lockup small{font:500 7px/1 var(--f-sys);letter-spacing:.42em;padding-left:.42em;margin-bottom:2px}
 .lockup b{font:800 20px/1 var(--f-brand);letter-spacing:-.055em;color:var(--wine);transition:color .4s}
@@ -60,7 +60,7 @@ p{margin:0}
 .nav.dark .nav-cta{background:var(--cream);color:var(--wine-ink)}
 
 /* SCENE: one screen, one photograph */
-.scene{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;overflow:clip;isolation:isolate;background:var(--top)}
+.scene{position:relative;min-height:100vh;min-height:100svh;min-height:100lvh;overflow:hidden;overflow:clip;isolation:isolate;background:var(--top)}
 .scene .shot{position:absolute;left:0;right:0;bottom:0;z-index:-1}
 .scene .shot img{width:100%;height:auto;transform:translateY(var(--py,0px)) scale(var(--ps,1));transform-origin:50% 100%;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 14%);mask-image:linear-gradient(180deg,transparent 0,#000 14%)}
 .scene .shot::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:4px;background:var(--bot)}
@@ -70,7 +70,8 @@ p{margin:0}
 .h-lg{font-size:clamp(34px,9.4vw,56px);line-height:1;letter-spacing:-.04em}
 .lede{font-size:16px;line-height:1.42;color:var(--cocoa-2);max-width:32ch}
 .wine{color:var(--wine)}
-.foot{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 var(--pad-r) calc(22px + env(safe-area-inset-bottom,0px)) var(--pad)}
+.foot{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 var(--pad-r) calc(22px + env(safe-area-inset-bottom,0px)) var(--pad);--bar:calc(100lvh - 100svh)}
+@supports (height:100lvh){.foot{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px) + var(--bar))}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 24px;border-radius:980px;font:500 16px/1 var(--f-sys);letter-spacing:-.02em;border:0;cursor:pointer;transition:transform .2s var(--ease),background .3s}
 .btn:active{transform:scale(.97)}
 .btn-cream{background:var(--cream);color:var(--wine-ink)}
@@ -91,7 +92,9 @@ p{margin:0}
 #hero{--top:#D2C2B0;--bot:#4D1721}
 #hero .copy{padding-top:calc(96px + env(safe-area-inset-top,0px))}
 #hero .h-xl{max-width:11ch}
-@media (max-width:899px){#hero .shot{left:-22%;right:-22%}#hero .foot{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}}
+@media (max-width:899px){#hero .shot{left:-22%;right:-22%}#hero .foot{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}@supports (height:100lvh){#hero .foot{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px) + var(--bar))}}
+  html{scroll-snap-type:y proximity}.scene{scroll-snap-align:start}
+  .scene .shot{transition:bottom .3s}}
 .scroll-hint{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:12px;color:var(--cream-2)}
 .scroll-hint i{width:1px;height:18px;background:linear-gradient(var(--cream),transparent);animation:hint 2s var(--ease) infinite}
 @keyframes hint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
@@ -109,6 +112,9 @@ p{margin:0}
 .spec li b{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--wine);margin-bottom:3px;font-weight:600}
 .flavor-name{font-size:clamp(30px,8.6vw,48px);line-height:1;letter-spacing:-.04em;text-align:center;transition:opacity .35s}
 .weight{text-align:center;font-size:12px;color:var(--cocoa-2);margin-top:2px}
+@media (max-width:899px) and (max-height:700px){#corte .cover img{margin-bottom:-14%}}
+@media (max-width:899px) and (max-height:620px){.scroll-hint{display:none}#hero .h-xl{font-size:36px}#hero .copy{padding-top:calc(78px + env(safe-area-inset-top,0px));gap:9px}.weight{display:none}#sabores .copy{gap:6px}.spec li{padding:6px 0!important}.seg{margin-bottom:0}}
+@media (max-width:899px) and (max-height:760px){#sabores .copy{gap:9px;padding-top:calc(80px + env(safe-area-inset-top,0px))}.spec li{padding:8px 0;font-size:14px}.flavor-name{font-size:clamp(28px,8vw,40px)}}
 #sabores .shot img{position:absolute;left:0;bottom:0;transition:opacity .7s var(--ease)}
 
 #sabores .shot img.f0{position:relative}
@@ -250,6 +256,12 @@ form{display:grid;gap:10px;margin-top:10px}
   .scroll-hint{display:none}
   #sabores .copy{align-self:center}
   #contacto{display:block;padding:120px 24px 48px}
+  /* hero holds on any screen shape: type follows height too, background slides so copy stays on the wall (JS: fitHero) */
+  #hero{padding-top:clamp(92px,14vh,170px)}
+  #hero .h-xl,#corte .h-xl,#caja .h-lg{font-size:clamp(42px,min(4.9vw,9.4vh),84px)}
+  #hero .lede{font-size:clamp(16px,2.6vh,18px)}
+  #hero .foot{padding-top:clamp(18px,3.4vh,30px)}
+  section#hero .btn-glass{background:rgba(246,238,228,.62);color:var(--wine-ink);box-shadow:inset 0 0 0 1.5px rgba(123,31,43,.5);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
   #contacto .copy{max-width:640px;margin-inline:auto;padding:0}
   .row .btn{flex:0 0 auto}
   section#caja{display:block;padding:0}
@@ -277,7 +289,7 @@ form{display:grid;gap:10px;margin-top:10px}
       <h1 class="h-xl">Lo que necesitás para tu <span class="wine">negocio.</span></h1>
       <p class="lede">Alfajores hechos a mano en Santa Rosa, La Pampa. Para regalar, servir y vender.</p>
     </div>
-    <div class="shot"><img src="assets/bolsas.jpg" alt="Alfajores Sarraceno Blanco Intenso y Chocolate Intenso en sus envoltorios, sobre una mesa bordó" fetchpriority="high"></div>
+    <div class="shot" data-subj=".46 .80" data-crop=".10"><img src="assets/bolsas.jpg" alt="Alfajores Sarraceno Blanco Intenso y Chocolate Intenso en sus envoltorios, sobre una mesa bordó" fetchpriority="high"></div>
     <div class="foot">
       <div class="row">
         <a class="btn btn-cream" href="#contacto">Pedir propuesta</a>
@@ -303,7 +315,7 @@ form{display:grid;gap:10px;margin-top:10px}
       </ul>
       <p class="weight">85 g · envase individual</p>
     </div>
-    <div class="shot" id="flavorShot">
+    <div class="shot" id="flavorShot" data-subj=".37 .815" data-crop=".2">
       <picture><source media="(min-width:900px)" srcset="assets/wide-corte-blanco.jpg"><img class="f0" src="assets/corte-blanco.jpg" alt="Alfajor Blanco Intenso cortado al medio, dos mitades apiladas" loading="lazy"></picture>
       <picture><source media="(min-width:900px)" srcset="assets/wide-corte-choco.jpg"><img class="f1 off" src="assets/corte-choco.jpg" alt="Alfajor Chocolate Intenso cortado al medio, dos mitades apiladas" loading="lazy"></picture>
     </div>
@@ -472,6 +484,54 @@ form{display:grid;gap:10px;margin-top:10px}
   let raf = 0;
   addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; tick(); }); }, {passive: true});
   addEventListener('resize', tick); tick();
+
+  // desktop hero: slide the panorama vertically so the table edge always stays below the text,
+  // whatever the monitor shape (wide-short screens used to push the wine table up behind the copy)
+  const hero = $('#hero'), lede = hero.querySelector('.lede'), heroCopy = hero.querySelector('.copy');
+  const fitHero = () => {
+    if (innerWidth < 900) { hero.style.backgroundPosition = ''; return; }
+    const W = hero.clientWidth, H = hero.clientHeight, s = Math.max(W / 3200, H / 1800), rw = 3200 * s, rh = 1800 * s;
+    const offX = (rw - W) * .72, spare = rh - H;
+    if (spare < 1) { hero.style.backgroundPosition = '72% 50%'; return; }
+    const rel = (el, k) => { let v = 0; while (el && el !== hero) { v += el[k]; el = el.offsetParent; } return v; };   // layout position, ignores reveal transforms
+    const x = rel(lede, 'offsetLeft'), bottom = rel(lede, 'offsetTop') + lede.offsetHeight;
+    const edgeAt = (vx, offY) => (.622 + .194 * ((vx + offX) / rw)) * rh - offY;   // table edge in the photo: 62% → 82% of its height, left → right
+    const want = spare * .62, maxOff = edgeAt(x, 0) - (bottom + 36);
+    const offY = Math.max(0, Math.min(want, maxOff, spare));
+    hero.style.backgroundPosition = '72% ' + (offY / spare * 100).toFixed(2) + '%';
+  };
+  addEventListener('resize', fitHero); fitHero();
+
+  // phones: keep each product photo clear of the text above it (and of the buttons below it) on any screen.
+  // The photo first slides down into its own table reflection; if that's not enough it scales down,
+  // never narrower than the screen so no edge ever shows.
+  const fitShots = () => {
+    document.querySelectorAll('.scene > .shot[data-subj]').forEach(shot => {
+      const s = shot.parentElement, img = shot.querySelector('img');
+      if (innerWidth >= 900 || !img.offsetHeight) { shot.style.bottom = ''; shot.style.removeProperty('--ps'); return; }
+      const [top, bot] = shot.dataset.subj.split(' ').map(Number), crop = +shot.dataset.crop || 0;
+      const rel = (el, k) => { let v = 0; while (el && el !== s) { v += el[k]; el = el.offsetParent; } return v; };
+      const copy = s.querySelector('.copy'), foot = s.querySelector('.foot');
+      const H = s.clientHeight, ih = img.offsetHeight, kMin = Math.min(1, s.clientWidth / shot.offsetWidth * 1.0001);
+      const A = rel(copy, 'offsetTop') + copy.offsetHeight + 14;                       // text ends here
+      const B = foot ? H - foot.offsetHeight - 6 : H - 10;  // buttons start here
+      let best = null;
+      for (let k = 1; k >= kMin - 1e-6; k -= .01) {
+        const need = A - (H - k * ih * (1 - top));
+        const d = Math.min(Math.max(need, 0), crop * k * ih);
+        const sTop = H + d - k * ih * (1 - top), sBot = H + d - k * ih * (1 - bot);
+        best = {k, d};
+        if (sTop >= A - .5 && sBot <= B) break;
+      }
+      shot.style.bottom = (-best.d).toFixed(1) + 'px';
+      shot.style.setProperty('--ps', best.k.toFixed(3));
+    });
+  };
+  addEventListener('resize', fitShots);
+  addEventListener('load', fitShots); fitShots();
+  document.querySelectorAll('.shot[data-subj] img').forEach(i => i.complete || i.addEventListener('load', fitShots));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitShots);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHero);
   addEventListener('transitionend', e => { if (e.target.dataset && e.target.dataset.rv && e.propertyName === 'transform') tick(); });  // re-check the WhatsApp button once revealed buttons settle
 
   // flavour toggle
